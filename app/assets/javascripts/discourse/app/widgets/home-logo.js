@@ -109,7 +109,7 @@ export default createWidget("home-logo", {
 
     if (darkUrl && url !== darkUrl) {
       return h("picture", [
-        h("source", {
+        h("source.dark-logo", {
           attributes: {
             srcset: getURL(darkUrl),
             media: "(prefers-color-scheme: dark)",

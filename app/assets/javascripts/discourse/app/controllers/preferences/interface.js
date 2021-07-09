@@ -8,6 +8,7 @@ import {
 import {
   listColorSchemes,
   loadColorSchemeStylesheet,
+  setDarkLogoMediaAttribute,
   updateColorSchemeCookie,
 } from "discourse/lib/color-scheme-picker";
 import { listThemes, setLocalTheme } from "discourse/lib/theme-selector";
@@ -392,8 +393,10 @@ export default Controller.extend({
           this.themeId,
           true
         );
+        setDarkLogoMediaAttribute("(prefers-color-scheme: none)");
       } else {
         loadColorSchemeStylesheet(colorSchemeId, this.themeId, true);
+        setDarkLogoMediaAttribute("(prefers-color-scheme: dark)");
       }
     },
 
