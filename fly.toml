@@ -7,6 +7,7 @@ kill_timeout = 5
   DISCOURSE_REDIS_HOST = "mr-discourse-redis.internal"
   DISCOURSE_DB_HOST = "mr-discourse-db.internal"
   DISCOURSE_DB_NAME = "postgres"
+  DISCOURSE_DB_USERNAME = "postgres"
 
 [deploy]
   release_command = "fly/preboot"
