@@ -32,7 +32,7 @@ RUN --mount=type=cache,id=apt-cache,sharing=locked,target=/var/cache/apt \
 RUN curl -sO https://nodejs.org/dist/v16.0.0/node-v16.0.0-linux-x64.tar.xz && cd /usr/local && tar --strip-components 1 -xvf /app/node*xz && rm /app/node*xz && cd ~
 
 RUN gem install -N bundler -v 2.2.19
-RUN npm install -g yarn
+RUN npm install -g yarn terser uglify-js
 
 ENV PATH $PATH:/usr/local/bin
 
@@ -48,6 +48,9 @@ RUN --mount=type=cache,target=/cache,id=bundle bin/rsync-cache /cache vendor/bun
 ENV NODE_ENV production
 
 COPY . .
+
+RUN --mount=type=cache,target=/cache,id=node \
+    bin/rsync-cache /cache node_modules "yarn"
 
 RUN bin/rails assets:precompile
 
