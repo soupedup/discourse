@@ -26,9 +26,6 @@ WORKDIR /app
 # Reinstall runtime dependencies that need to be installed as packages
 
 
-RUN apt -y install --no-install-recommends git rsyslog logrotate cron ssh-client less
-RUN apt -y install build-essential rsync \
-
 RUN --mount=type=cache,id=apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \

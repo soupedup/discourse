@@ -9,8 +9,9 @@ kill_timeout = 5
   DISCOURSE_DB_NAME = "postgres"
   DISCOURSE_DB_USERNAME = "postgres"
 
-[deploy]
-  release_command = "fly/preboot"
+[[statics]]
+  guest_path = "/app/public/assets"
+  url_prefix = "/assets"
 
 [env]
   DISCOURSE_DB_USERNAME = "postgres"
@@ -24,6 +25,7 @@ kill_timeout = 5
   # DISCOURSE_DEVELOPER_EMAILS = "set-in-secrets"
   # DISCOURSE_SMTP_USER_NAME = "set-in-secrets"
   # DISCOURSE_SMTP_PASSWORD = "set-in-secrets"
+  DISCOURSE_SERVE_STATIC_FILES = "true"
 
 [experimental]
   allowed_public_ports = []
@@ -31,7 +33,7 @@ kill_timeout = 5
 
 [[services]]
   http_checks = []
-  internal_port = 80
+  internal_port = 3000
   protocol = "tcp"
   script_checks = []
 
