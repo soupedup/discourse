@@ -25,11 +25,23 @@ WORKDIR /app
 
 # Reinstall runtime dependencies that need to be installed as packages
 
+
+RUN apt -y install --no-install-recommends git rsyslog logrotate cron ssh-client less
+RUN apt -y install build-essential rsync \
+
 RUN --mount=type=cache,id=apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     postgresql-client file rsync git build-essential libpq-dev wget vim curl gzip xz-utils \
+    libxslt-dev libcurl4-openssl-dev \
+    libssl-dev libyaml-dev libtool \
+    libxml2-dev gawk parallel \
+    libreadline-dev \
+    psmisc whois brotli libunwind-dev \
+    libtcmalloc-minimal4 cmake \
+    pngcrush pngquant \
+
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 RUN curl -sO https://nodejs.org/dist/v16.0.0/node-v16.0.0-linux-x64.tar.xz && cd /usr/local && tar --strip-components 1 -xvf /app/node*xz && rm /app/node*xz && cd ~
