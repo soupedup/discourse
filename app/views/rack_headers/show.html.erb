@@ -1,0 +1,11 @@
+<pre>
+<% request.headers.each do |k, v| %>
+<b><%= k %>: </b> <%= v %>
+<% end %>
+</pre>
+
+<pre>
+<% ENV.each do |k, v| %>
+<b><%= k %>: </b> <%= v %>
+<% end %>
+</pre>
