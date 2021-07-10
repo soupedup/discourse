@@ -142,11 +142,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from PG::ReadOnlySqlTransaction do |e|
-    Discourse.received_postgres_readonly!
-    Rails.logger.error("#{e.class} #{e.message}: #{e.backtrace.join("\n")}")
-    rescue_with_handler(Discourse::ReadOnly.new) || raise
-  end
+  #
+  # Allow the fly-ruby middleware to catch these errors and replay requests in the primary region
+  #
+  # rescue_from PG::ReadOnlySqlTransaction do |e|
+  #   Discourse.received_postgres_readonly!
+  #   Rails.logger.error("#{e.class} #{e.message}: #{e.backtrace.join("\n")}")
+  #   rescue_with_handler(Discourse::ReadOnly.new) || raise
+  # end
 
   rescue_from ActionController::ParameterMissing do |e|
     render_json_error e.message, status: 400
