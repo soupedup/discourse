@@ -81,15 +81,21 @@ module Scheduler
       end
     end
 
+    def run_in_primary_region
+      ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+      yield
+      ActiveRecord::Base.connection_handler.clear_active_connections!
+    end
+
     # using non_block to match Ruby #deq
     def do_work(non_block = false)
       db, job, desc = @queue.deq(non_block)
       db ||= RailsMultisite::ConnectionManagement::DEFAULT
 
-      RailsMultisite::ConnectionManagement.with_connection(db) do
+      run_in_primary_region do
         begin
           warning_job = @reactor.queue(@timeout) do
-            Rails.logger.error "'#{desc}' is still running after #{@timeout} seconds on db #{db}, this process may need to be restarted!"
+            Rails.logger.error "'#{desc}' is still running after #{@timeout} seconds on db #{ENV['DATABASE_URL']}, this process may need to be restarted!"
           end if !non_block
           job.call
         rescue => ex
